@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: java-war-ingress
+  namespace: java-app
+spec:
+  rules:
+  - host: java-app.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: java-war-service
+            port:
+              number: 80
