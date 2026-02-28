@@ -10,13 +10,7 @@ pipeline {
 
         
 
-	stage('Clone Repository') {
-    steps {
-        git branch: 'main',
-            credentialsId: 'github-cred',
-            url: 'https://github.com/milind55555/java-war-devops-cicd-terraform-docker-kubernetes-helm-jenkins.git'
-    }
-}
+
 	
         stage('Build Docker Image') {
             steps {
@@ -42,10 +36,7 @@ pipeline {
             }
         }
 
-        stage('Deploy using Helm') {
-            steps {
-                sh 'helm upgrade --install java-release ./helm/java-app-chart'
-            }
+        
         }
     }
 }
