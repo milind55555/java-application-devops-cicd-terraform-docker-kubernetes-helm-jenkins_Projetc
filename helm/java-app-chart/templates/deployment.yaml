@@ -13,7 +13,7 @@ spec:
         app: java-war-app
     spec:
       containers:
-      - name: java-war-container
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        ports:
-        - containerPort: 8080
+        - name: java-war-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 8080

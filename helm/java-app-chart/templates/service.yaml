@@ -7,6 +7,6 @@ spec:
   selector:
     app: java-war-app
   ports:
-  - port: {{ .Values.service.port }}
-    targetPort: 8080
-    nodePort: {{ .Values.service.nodePort }}
+    - port: {{ .Values.service.port }}
+      targetPort: 8080
+      nodePort: {{ .Values.service.nodePort }}

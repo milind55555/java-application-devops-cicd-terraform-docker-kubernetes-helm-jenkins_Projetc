@@ -8,12 +8,16 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/milind55555/java-war-devops-cicd-terraform-docker-kubernetes-helm-jenkins.git'
-            }
-        }
+        
 
+	stage('Clone Repository') {
+    steps {
+        git branch: 'main',
+            credentialsId: 'github-cred',
+            url: 'https://github.com/milind55555/java-war-devops-cicd-terraform-docker-kubernetes-helm-jenkins.git'
+    }
+}
+	
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'

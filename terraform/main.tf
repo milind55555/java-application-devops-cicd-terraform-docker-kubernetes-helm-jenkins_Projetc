@@ -28,6 +28,14 @@ resource "aws_instance" "devops_server" {
   instance_type = var.instance_type
   key_name      = var.key_name
   security_groups = [aws_security_group.devops_sg.name]
+	
+  associate_public_ip_address = true
+
+  root_block_device {
+    volume_size = 30          # 🔥 THIS SETS ROOT TO 30GB
+    volume_type = "gp3"
+    delete_on_termination = true
+  }	
 
   tags = {
     Name = "Java-DevOps-Project"
