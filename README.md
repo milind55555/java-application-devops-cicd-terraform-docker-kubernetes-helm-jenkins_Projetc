@@ -1,4 +1,4 @@
-# 🚀 End-to-End DevOps CI/CD Project
+<img width="975" height="650" alt="image" src="https://github.com/user-attachments/assets/3e6eede2-14d5-4898-8557-f071b87d0f01" /><img width="975" height="650" alt="image" src="https://github.com/user-attachments/assets/3e6eede2-14d5-4898-8557-f071b87d0f01" /># 🚀 End-to-End DevOps CI/CD Project
 
 ## 📌 Project Title
 Java WAR Application Deployment using Terraform, Docker, Jenkins, Kubernetes, and Helm
@@ -20,6 +20,11 @@ The goal is to build a fully automated CI/CD pipeline for deploying a Java WAR-b
 ---
 
 # 🏗 Architecture Overview
+
+
+<img width="975" height="650" alt="image" src="https://github.com/user-attachments/assets/8ece1e80-6c2b-44b7-bac0-e913d1cac317" />
+<img width="975" height="650" alt="image" src="https://github.com/user-attachments/assets/8ece1e80-6c2b-44b7-bac0-e913d1cac317" />
+
 
 
 Developer → Push Code to GitHub
