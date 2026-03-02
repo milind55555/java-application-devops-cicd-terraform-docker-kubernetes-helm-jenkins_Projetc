@@ -10,6 +10,8 @@ module "vpc" {
 
   enable_nat_gateway = false
   single_nat_gateway = false
+
+  map_public_ip_on_launch = true   # 🔥 ADD THIS
 }
 
 module "eks" {
