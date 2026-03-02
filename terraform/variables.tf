@@ -2,10 +2,14 @@ variable "region" {
   default = "ap-south-1"
 }
 
-variable "instance_type" {
-  default = "t2.micro"
+variable "cluster_name" {
+  default = "java-eks-cluster"
 }
 
-variable "key_name" {
-  description = "AWS key pair name"
+variable "node_instance_type" {
+  default = "t3.medium"
+}
+
+variable "desired_size" {
+  default = 2
 }

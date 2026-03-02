@@ -1,43 +1,35 @@
-resource "aws_security_group" "devops_sg" {
-  name = "devops-sg"
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "5.0.0"
 
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  name = "eks-vpc"
+  cidr = "10.0.0.0/16"
 
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  azs             = ["ap-south-1a", "ap-south-1b"]
+  public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
 
-  ingress {
-    from_port   = 30007
-    to_port     = 30007
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  enable_nat_gateway = false
+  single_nat_gateway = false
 }
 
-resource "aws_instance" "devops_server" {
-  ami           = "ami-019715e0d74f695be"
-  instance_type = var.instance_type
-  key_name      = var.key_name
-  security_groups = [aws_security_group.devops_sg.name]
-	
-  associate_public_ip_address = true
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "19.15.3"
 
-  root_block_device {
-    volume_size = 30          # 🔥 THIS SETS ROOT TO 30GB
-    volume_type = "gp3"
-    delete_on_termination = true
-  }	
+  cluster_name    = var.cluster_name
+  cluster_version = "1.29"
 
-  tags = {
-    Name = "Java-DevOps-Project"
+  cluster_endpoint_public_access = true
+
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.public_subnets
+
+  eks_managed_node_groups = {
+    default = {
+      instance_types = [var.node_instance_type]
+      desired_size   = var.desired_size
+      min_size       = 1
+      max_size       = 3
+    }
   }
 }
