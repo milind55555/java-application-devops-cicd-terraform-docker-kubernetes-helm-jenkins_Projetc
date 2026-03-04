@@ -116,10 +116,12 @@ Helm makes deployments reusable and scalable.
 
 
 Output Of Project
-
+Application Deployed On Pods
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7f8d32ea-72dd-436f-90e9-fdd68367fda8"  />
+Pipeline runs successfully
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6b0d3668-9739-4020-93f7-622c2407d045" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/dd848f6f-8cc8-4756-8a6a-0e171acd646c" />
+Application Dockerized Successfully
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e0f8bcaf-ebe4-43ad-afa9-d86748e7776b" />
 
 
