@@ -253,13 +253,12 @@ java-war-devops-project/
 
 Add GitHub Webhooks for automatic trigger
 
-Use AWS EKS instead of Minikube
 
 Add Prometheus & Grafana monitoring
 
 Add SonarQube for code quality
 
-Use AWS ECR instead of DockerHub
+
 
 👨‍💻 Author
 
