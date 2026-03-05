@@ -6,7 +6,7 @@ pipeline {
         DOCKER_TAG = "${BUILD_NUMBER}"
         REGION = "ap-south-1"
         CLUSTER_NAME = "java-eks-cluster"
-        SONARQUBE_URL = "http://13.233.74.251:9000"
+        SONARQUBE_URL = "http://13.233.65.153:9000"
         SONAR_PROJECT_KEY = "java-app"
         SONAR_TOKEN = credentials('sonar-token') // Store token securely in Jenkins credentials
     }
