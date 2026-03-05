@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        sonarQubeScanner 'sonar-scanner'
+        sonarRunner 'SonarQube Scanner' // Correct tool name
     }
 
     environment {
@@ -13,7 +13,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
                 checkout scm
@@ -22,14 +21,15 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonar-server') {
-                    sh '''
-                    sonar-scanner \
-                    -Dsonar.projectKey=java-app \
-                    -Dsonar.sources=. \
-                    -Dsonar.host.url=$SONAR_HOST_URL \
-                    -Dsonar.login=$SONAR_AUTH_TOKEN
-                    '''
+                script {
+                    // Running SonarQube analysis using the tool configuration
+                    sonarRunner(
+                        projectKey: 'java-app',
+                        sources: '.',
+                        extraProperties: [
+                            'sonar.host.url': 'http://13.233.74.251:9000'
+                        ]
+                    )
                 }
             }
         }
@@ -68,7 +68,6 @@ pipeline {
             steps {
                 sh '''
                 aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
-
                 kubectl set image deployment/java-war-deployment \
                 java-war-container=$DOCKER_IMAGE:$DOCKER_TAG
                 '''
