@@ -18,18 +18,18 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+      stage('SonarQube Analysis') {
     steps {
         script {
-            docker.image('sonarsource/sonar-scanner-cli:latest').inside {
-                sh """
+            docker.image('sonarsource/sonar-scanner-cli:latest').inside('--entrypoint=""') {
+                sh '''
                 sonar-scanner \
                 -Dsonar.projectKey=java-app \
                 -Dsonar.sources=. \
                 -Dsonar.host.url=http://13.233.65.153:9000 \
                 -Dsonar.token=$SONAR_TOKEN \
                 -Dsonar.userHome=$WORKSPACE/.sonar
-                """
+                '''
             }
         }
     }
