@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        sonarQubeScanner 'sonar-scanner'
+    }
+
     environment {
         DOCKER_IMAGE = "milind1122/java_applicationdevopsproject"
         DOCKER_TAG = "${BUILD_NUMBER}"
@@ -23,7 +27,8 @@ pipeline {
                     sonar-scanner \
                     -Dsonar.projectKey=java-app \
                     -Dsonar.sources=. \
-                    -Dsonar.host.url=http://13.233.74.251:9000
+                    -Dsonar.host.url=$SONAR_HOST_URL \
+                    -Dsonar.login=$SONAR_AUTH_TOKEN
                     '''
                 }
             }
@@ -61,17 +66,12 @@ pipeline {
 
         stage('Deploy to EKS') {
             steps {
-                withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-cred'
-                ]]) {
-                    sh '''
-                    aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
+                sh '''
+                aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
 
-                    kubectl set image deployment/java-war-deployment \
-                    java-war-container=$DOCKER_IMAGE:$DOCKER_TAG
-                    '''
-                }
+                kubectl set image deployment/java-war-deployment \
+                java-war-container=$DOCKER_IMAGE:$DOCKER_TAG
+                '''
             }
         }
     }
