@@ -1,15 +1,14 @@
 pipeline {
     agent any
 
-    tools {
-        sonarRunner 'SonarQube Scanner' // Use the name defined in your tool config
-    }
-
     environment {
         DOCKER_IMAGE = "milind1122/java_applicationdevopsproject"
         DOCKER_TAG = "${BUILD_NUMBER}"
         REGION = "ap-south-1"
         CLUSTER_NAME = "java-eks-cluster"
+        SONARQUBE_URL = "http://13.233.74.251:9000"
+        SONAR_PROJECT_KEY = "java-app"
+        SONAR_TOKEN = credentials('sonar-token') // Store token securely in Jenkins credentials
     }
 
     stages {
@@ -22,14 +21,15 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // SonarQube analysis step
-                    sonarScanner(
-                        projectKey: 'java-app',
-                        sources: '.',
-                        extraProperties: [
-                            'sonar.host.url': 'http://13.233.74.251:9000'
-                        ]
-                    )
+                    docker.image('sonarsource/sonar-scanner-cli:latest').inside('-v $WORKSPACE:/usr/src -w /usr/src') {
+                        sh """
+                            sonar-scanner \
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=${SONARQUBE_URL} \
+                            -Dsonar.login=${SONAR_TOKEN}
+                        """
+                    }
                 }
             }
         }
