@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        sonarRunner 'SonarQube Scanner' // Correct tool name
+        sonarRunner 'SonarQube Scanner' // Use the name defined in your tool config
     }
 
     environment {
@@ -22,8 +22,8 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Running SonarQube analysis using the tool configuration
-                    sonarRunner(
+                    // SonarQube analysis step
+                    sonarScanner(
                         projectKey: 'java-app',
                         sources: '.',
                         extraProperties: [
