@@ -16,6 +16,19 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonar-server') {
+                    sh '''
+                    sonar-scanner \
+                    -Dsonar.projectKey=java-app \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=http://13.233.74.251:9000
+                    '''
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
@@ -48,11 +61,17 @@ pipeline {
 
         stage('Deploy to EKS') {
             steps {
-                sh '''
-                aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
-                kubectl set image deployment/java-war-deployment \
-                java-war-container=$DOCKER_IMAGE:$DOCKER_TAG --record
-                '''
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-cred'
+                ]]) {
+                    sh '''
+                    aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
+
+                    kubectl set image deployment/java-war-deployment \
+                    java-war-container=$DOCKER_IMAGE:$DOCKER_TAG
+                    '''
+                }
             }
         }
     }
